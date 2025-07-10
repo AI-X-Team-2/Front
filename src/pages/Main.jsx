@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
-import axios from 'axios'; // axios 설치 후 import 필요
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; 
+
+
 
 const Main = () => {
   const [dream, setDream] = useState(''); // 꿈 입력값 저장
   const [loading, setLoading] = useState(false); // 로딩 상태
+  const navigate = useNavigate();
 
   // 버튼 클릭 시 실행되는 함수
-  const handleInterpret = async () => {
+   const handleInterpret = async () => {
     if (!dream.trim()) {
       alert('꿈 내용을 입력해주세요!');
       return;
@@ -16,10 +20,15 @@ const Main = () => {
       setLoading(true);
 
       const response = await axios.post('http://localhost:8000/interpret', {
-        content: dream
+        content: dream,
       });
 
-      alert('해몽 결과: ' + response.data.result); // 백엔드 응답 결과 보여줌
+      // 결과 페이지로 이동하면서 응답 데이터 전달
+      navigate('/result', {
+        state: {
+          resultText: response.data.result,
+        },
+      });
     } catch (error) {
       console.error('요청 실패:', error);
       alert('해몽 요청에 실패했습니다 😥');
