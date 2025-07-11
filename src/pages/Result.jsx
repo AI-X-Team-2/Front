@@ -29,6 +29,21 @@ const Result = ({ result }) => {
           content={result.real_life_connection}
         />
         <ResultContent title="결론" content={result.comforting_advice} />
+        <img
+          src={result.image_url}
+          alt="꿈 해석 이미지"
+          className="w-[400px] rounded-lg shadow-lg mt-10"
+        />
+        <a
+          href={result.playlist_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block px-4 mt-10 py-2 bg-pink-600 text-white font-semibold rounded hover:bg-pink-700"
+        >
+          K-POP 플레이리스트 보기
+        </a>
+
+        <ResultContent title="당신이 겪은 어둠도 결국 빛으로 향하는 여정 중 하나일 뿐이에요." />
       </div>
     </div>
   );

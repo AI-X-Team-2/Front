@@ -21,7 +21,7 @@ const Main = () => {
     try {
       setLoading(true);
 
-      const response = await axios.post('http://127.0.0.1:8080/interpret', {
+      const response = await axios.post('http://127.0.0.1:8088/interpret', {
         content: dream,
       });
       console.log(response)
