@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; 
+import Result from './Result';
+
 
 
 
 const Main = () => {
   const [dream, setDream] = useState(''); // 꿈 입력값 저장
   const [loading, setLoading] = useState(false); // 로딩 상태
-  const navigate = useNavigate();
+  const [data, setData] = useState("")
+
 
   // 버튼 클릭 시 실행되는 함수
    const handleInterpret = async () => {
@@ -19,23 +21,26 @@ const Main = () => {
     try {
       setLoading(true);
 
-      const response = await axios.post('http://localhost:8000/interpret', {
+      const response = await axios.post('http://127.0.0.1:8080/interpret', {
         content: dream,
       });
+      console.log(response)
+      setData(response.data)
 
-      // 결과 페이지로 이동하면서 응답 데이터 전달
-      navigate('/result', {
-        state: {
-          resultText: response.data.result,
-        },
-      });
+
+
+     
     } catch (error) {
       console.error('요청 실패:', error);
       alert('해몽 요청에 실패했습니다 😥');
+      
     } finally {
       setLoading(false);
     }
   };
+   if (data) {
+    return <Result result={data} />;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-100 via-indigo-100 to-purple-200 flex items-center justify-center p-4">
@@ -83,6 +88,8 @@ const Main = () => {
           {loading ? '해몽 중...' : '악몽 해몽하기'}
         </button>
       </div>
+
+
     </div>
   );
 };
